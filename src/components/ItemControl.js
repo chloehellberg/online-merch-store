@@ -28,37 +28,63 @@ class ItemControl extends React.Component {
     });
   }
 
-  // handleBuyingItem = (itemQuantity) => {
-  //   const newMasterItemList = this.state.masterItemList.quantity
-  //   this.setState( prevState => ({
-  //     masterItemList: newMasterItemList,
-  //     itemQuantity: prevState.itemQuantity-1
-  //   }));
-  // }j
-
-  handleBuyingItem = (id) => {        //add id back in
-    console.log("hello!")
-    // const selectedItem = this.state.masterItemList.filter(item => item.id === id)[0];
-    const clone = [...this.state.masterItemList]
-    console.log(clone);
-    
-    for (let i = 0; i < clone.length; i++){
-      if (clone[i].id === id){
-        
-        clone[i].quantity = clone[i].quantity - 1
+  handleBuyingItem = (id) => {
+    const newMasterItemList = this.state.masterItemList;
+    newMasterItemList.map((item) => {
+      if(item.id === id && item.quantity != 0) {
+        item.quantity = item.quantity - 1;
+      } else if (item.id === id && item.quantity === 0) {
+        item.quantity = "Out of Stock";
       }
-    }
-
+      return item;
+    })
     this.setState({
-      masterItemList: clone
-    });
+      masterItemList: newMasterItemList
+    })
   }
 
-  handleRestockingItem = (itemQuantity) => {
-    const newMasterItemList = this.state.masterItemList.quantity
-    this.setState( prevState => ({
-      itemQuantity: prevState.itemQuantity+1
-    }));
+  // handleBuyingItem = (id) => {        
+  //   console.log("hello!")
+  //   // const selectedItem = this.state.masterItemList.filter(item => item.id === id)[0];
+  //   const clone = [...this.state.masterItemList]
+  //   console.log(clone);
+    
+  //   for (let i = 0; i < clone.length; i++){
+  //     if (clone[i].id === id){
+        
+  //       clone[i].quantity = clone[i].quantity - 1
+  //     }
+  //   }
+
+  //   this.setState({
+  //     masterItemList: clone
+  //   });
+  // }
+
+  handleRestockingItem  = (id) => {
+    const newMasterItemList = this.state.masterItemList;
+    newMasterItemList.map((item) => {
+
+      if (item.id === id && (item.quantity === "Out of Stock") || isNaN(item.quantity)) {  
+        item.quantity = 1;
+      } else if (item.id === id && item.quantity > 1) {
+        item.quantity = (item.quantity + 1);
+      } else {
+        item.quantity = (item.quantity + 1);
+      }
+      return item;
+    })
+    this.setState({
+      masterItemList: newMasterItemList
+    })
+  }
+
+  handleDeletingItem = (id) => {
+    const newMasterItemList = this.state.masterItemList.filter(item => item.id !==id);
+    this.setState({
+      masterItemList: newMasterItemList,
+      selectedItem: null
+    });
   }
 
 
@@ -87,7 +113,7 @@ class ItemControl extends React.Component {
     let currentVisibleState = null;
     let buttonText = null;
     if (this.state.selectedItem != null) {
-      currentVisibleState = <ItemDetail item = {this.state.selectedItem} />
+      currentVisibleState = <ItemDetail item = {this.state.selectedItem} onClickingDelete = {this.handleDeletingItem}/>
       buttonText = 'Return to Item List'
 
     }
@@ -96,7 +122,7 @@ class ItemControl extends React.Component {
       currentVisibleState = <NewItemForm onNewItemCreation={this.handleAddingNewItemToList} />;
       buttonText = "Return to Item List";
     } else {
-      currentVisibleState = <ItemList itemList={this.state.masterItemList} onItemSelection={this.handleChangingSelectedItem} onBuyItem={this.handleBuyingItem}/>;
+      currentVisibleState = <ItemList itemList={this.state.masterItemList} onItemSelection={this.handleChangingSelectedItem} onBuyItem={this.handleBuyingItem} onStockItem={this.handleRestockingItem} />;
       
       // currentVisibleState = <ItemList onBuyItem={this.state.handleBuyingItem} />;
       buttonText = "Add New Item"

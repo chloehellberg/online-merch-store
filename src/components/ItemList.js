@@ -41,6 +41,7 @@ function ItemList(props){
         <Item name={item.name}
         whenItemClicked = { props.onItemSelection }
         whenBuyClicked = { props.onBuyItem }
+        whenStockClicked = { props.onStockItem }
         quantity ={item.quantity}
         description={item.description}
         price={item.price}
@@ -54,7 +55,8 @@ function ItemList(props){
 ItemList.propTypes = {
   itemList: PropTypes.array,
   onItemSelection: PropTypes.func,
-  onBuyItem: PropTypes.func
+  onBuyItem: PropTypes.func,
+  onStockItem: PropTypes.func
 };
 
 export default ItemList;
