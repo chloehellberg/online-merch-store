@@ -28,12 +28,30 @@ class ItemControl extends React.Component {
     });
   }
 
-  handleBuyingItem = (itemQuantity) => {
-    const newMasterItemList = this.state.masterItemList.quantity
-    this.setState( prevState => ({
-      masterItemList: newMasterItemList,
-      itemQuantity: prevState.itemQuantity-1
-    }));
+  // handleBuyingItem = (itemQuantity) => {
+  //   const newMasterItemList = this.state.masterItemList.quantity
+  //   this.setState( prevState => ({
+  //     masterItemList: newMasterItemList,
+  //     itemQuantity: prevState.itemQuantity-1
+  //   }));
+  // }j
+
+  handleBuyingItem = (id) => {        //add id back in
+    console.log("hello!")
+    // const selectedItem = this.state.masterItemList.filter(item => item.id === id)[0];
+    const clone = [...this.state.masterItemList]
+    console.log(clone);
+    
+    for (let i = 0; i < clone.length; i++){
+      if (clone[i].id === id){
+        
+        clone[i].quantity = clone[i].quantity - 1
+      }
+    }
+
+    this.setState({
+      masterItemList: clone
+    });
   }
 
   handleRestockingItem = (itemQuantity) => {
@@ -78,7 +96,8 @@ class ItemControl extends React.Component {
       currentVisibleState = <NewItemForm onNewItemCreation={this.handleAddingNewItemToList} />;
       buttonText = "Return to Item List";
     } else {
-      currentVisibleState = <ItemList itemList={this.state.masterItemList} onItemSelection={this.handleChangingSelectedItem} />;
+      currentVisibleState = <ItemList itemList={this.state.masterItemList} onItemSelection={this.handleChangingSelectedItem} onBuyItem={this.handleBuyingItem}/>;
+      
       // currentVisibleState = <ItemList onBuyItem={this.state.handleBuyingItem} />;
       buttonText = "Add New Item"
     }

@@ -6,6 +6,8 @@ function Item(props){
   return (
     <React.Fragment>
       <div onClick = {() => props.whenItemClicked(props.id)}>
+      <button id = "detailButton">Show Details</button>
+        </div>
       <div class= 'container'>
       <div class='row'>
         <div class='card'>
@@ -14,11 +16,12 @@ function Item(props){
           <h3>Quantity:{props.quantity}</h3>
           <p>Description: {props.description}</p>
           <p>Price: {props.price}</p>
-          <button id = "buyButton">Buy</button>
+          <button onClick={() => props.whenBuyClicked(props.id)}>Buy!</button>
+          
           <button id ='restockButton'>Restock</button>
         </div>
       </div>
-      </div>
+      
       
 
       <hr/>
@@ -32,7 +35,8 @@ Item.propTypes = {
   description: PropTypes.string,
   price: PropTypes.number,
   id: PropTypes.string,
-  whenItemClicked: PropTypes.func
+  whenItemClicked: PropTypes.func,
+  whenBuyClicked: PropTypes.func
 };
 
 export default Item;

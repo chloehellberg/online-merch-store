@@ -40,6 +40,7 @@ function ItemList(props){
       {props.itemList.map((item) =>
         <Item name={item.name}
         whenItemClicked = { props.onItemSelection }
+        whenBuyClicked = { props.onBuyItem }
         quantity ={item.quantity}
         description={item.description}
         price={item.price}
@@ -52,8 +53,8 @@ function ItemList(props){
 
 ItemList.propTypes = {
   itemList: PropTypes.array,
-  onItemSelection: PropTypes.func
-  //onBuyItem: PropTypes.func
+  onItemSelection: PropTypes.func,
+  onBuyItem: PropTypes.func
 };
 
 export default ItemList;
