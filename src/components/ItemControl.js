@@ -59,7 +59,7 @@ class ItemControl extends React.Component {
   //   this.setState({
   //     masterItemList: clone
   //   });
-  // }
+  
 
   handleRestockingItem  = (id) => {
     const newMasterItemList = this.state.masterItemList;
